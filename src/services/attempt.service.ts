@@ -3,6 +3,7 @@ import { levelRepository } from "../repositories/level.repository.js";
 import { progressRepository } from "../repositories/progress.repository.js";
 import { AppError } from "./auth.service.js";
 import { QuestionType, ProgressStatus } from "../generated/prisma/client.js";
+import { achievementService } from "./achievement.service.js";
 
 const POINTS_FIRST_TRY = 100;
 const POINTS_SECOND_TRY = 50;
@@ -149,7 +150,9 @@ export const attemptService = {
             }
         }
 
-        return { attemptId, totalScore };
+        const newAchievements = await achievementService.checkAndUnlockAchievements(userId);
+
+        return { attemptId, totalScore, newAchievements };
     },
 
     _checkAnswer: (
