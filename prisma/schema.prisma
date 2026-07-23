@@ -11,6 +11,7 @@ datasource db {
 
 enum QuestionType {
   MULTIPLE_CHOICE
+  TRUE_FALSE_VISUAL
   SIGN_PRACTICE
 }
 
