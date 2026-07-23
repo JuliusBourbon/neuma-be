@@ -69,6 +69,8 @@ export const achievementService = {
             title: a.title,
             description: a.description,
             isUnlocked: unlockedIds.has(a.id),
+            rewardAvatarSeed: a.rewardAvatar?.seed,
+            rewardAvatarStyle: a.rewardAvatar?.style,
         }));
     },
 };

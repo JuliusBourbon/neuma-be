@@ -21,4 +21,12 @@ export const levelRepository = {
             orderBy: { order: "asc" },
         });
     },
+
+    findQuestionsByLevelId: (levelId: string) => {
+        return prisma.question.findMany({
+            where: { levelId },
+            orderBy: { order: "asc" },
+            include: { options: true },
+        });
+    },
 };

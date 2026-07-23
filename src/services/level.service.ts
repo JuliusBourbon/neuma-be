@@ -85,4 +85,11 @@ export const levelService = {
 
         return levelRepository.findMaterialsByLevelId(levelId);
     },
+
+    getQuestions: async (levelId: string) => {
+        const level = await levelRepository.findById(levelId);
+        if (!level) throw new AppError(404, "Level tidak ditemukan");
+
+        return levelRepository.findQuestionsByLevelId(levelId);
+    },
 };

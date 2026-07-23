@@ -29,4 +29,18 @@ export const levelController = {
             next(err);
         }
     },
+
+    questions: async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const result = await levelService.getQuestions(req.params.id as string);
+            // Hide correct answer from client
+            const sanitizedResult = result.map(q => {
+                const { correctAnswer, ...rest } = q;
+                return rest;
+            });
+            res.json(sanitizedResult);
+        } catch (err) {
+            next(err);
+        }
+    },
 };
