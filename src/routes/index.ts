@@ -6,6 +6,7 @@ import levelRoutes from "./level.route.js";
 import attemptRoutes from "./attempt.route.js";
 import achievementRoutes from "./achievement.route.js";
 import avatarRoutes from "./avatar.route.js";
+import adminRoutes from "./admin.route.js";
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use("/levels", levelRoutes);
 router.use("/attempts", attemptRoutes);
 router.use("/achievements", achievementRoutes);
 router.use("/avatars", avatarRoutes);
+router.use("/admin", adminRoutes);
 
 export default router;
