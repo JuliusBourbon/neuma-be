@@ -56,21 +56,52 @@ export const achievementService = {
     },
 
     listAllWithStatus: async (userId: string) => {
+        // Sync achievements retroactively just in case
+        await achievementService.checkAndUnlockAchievements(userId);
+
         const [all, unlocked] = await Promise.all([
             achievementRepository.findAll(),
             achievementRepository.findUnlockedByUser(userId),
         ]);
 
         const unlockedIds = new Set(unlocked.map((u) => u.achievementId));
+        const userProgress = await progressRepository.findAllByUser(userId);
+        const completedLevelsCount = userProgress.filter((p) => p.status === "COMPLETED").length;
+        const hasPerfectScore = userProgress.some((p) => p.bestScore >= 100);
 
-        return all.map((a) => ({
-            id: a.id,
-            code: a.code,
-            title: a.title,
-            description: a.description,
-            isUnlocked: unlockedIds.has(a.id),
-            rewardAvatarSeed: a.rewardAvatar?.seed,
-            rewardAvatarStyle: a.rewardAvatar?.style,
-        }));
+        return all.map((a) => {
+            let progress = 0;
+            let target = 1;
+
+            if (a.code === "COMPLETE_LEVEL_1") {
+                target = 1;
+                progress = Math.min(completedLevelsCount, target);
+            } else if (a.code === "COMPLETE_LEVEL_5") {
+                target = 5;
+                progress = Math.min(completedLevelsCount, target);
+            } else if (a.code === "COMPLETE_LEVEL_13") {
+                target = 13;
+                progress = Math.min(completedLevelsCount, target);
+            } else if (a.code === "COMPLETE_ALL_LEVELS") {
+                target = 26;
+                progress = Math.min(completedLevelsCount, target);
+            } else if (a.code === "PERFECT_SCORE_ANY_LEVEL") {
+                target = 1;
+                progress = hasPerfectScore ? 1 : 0;
+            }
+
+            return {
+                id: a.id,
+                code: a.code,
+                title: a.title,
+                description: a.description,
+                isUnlocked: unlockedIds.has(a.id),
+                progress: progress,
+                target: target,
+                rewardAvatarId: a.rewardAvatarId,
+                rewardAvatarSeed: a.rewardAvatar?.seed,
+                rewardAvatarStyle: a.rewardAvatar?.style,
+            };
+        });
     },
 };

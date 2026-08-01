@@ -6,7 +6,15 @@ export const userService = {
     getProfile: async (userId: string) => {
         const user = await userRepository.findById(userId);
         if (!user) throw new AppError(404, "User tidak ditemukan");
-        return user;
+        if (!user.avatarSeed) {
+            user.avatarSeed = "Felix";
+        }
+        if (!user.avatarStyle) {
+            user.avatarStyle = "adventurer";
+        }
+        
+        const stats = await userRepository.getUserStats(userId);
+        return { ...user, ...stats };
     },
 
     updateProfile: async (

@@ -33,11 +33,15 @@ export const levelController = {
     questions: async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const result = await levelService.getQuestions(req.params.id as string);
-            // Hide correct answer from client
-            const sanitizedResult = result.map(q => {
-                const { correctAnswer, ...rest } = q;
-                return rest;
-            });
+        // Hide correct answer from client, except for SIGN_PRACTICE
+        // (user already knows the target letter from the prompt)
+        const sanitizedResult = result.map(q => {
+            const { correctAnswer, ...rest } = q;
+            if (q.type === 'SIGN_PRACTICE') {
+                return { ...rest, correctAnswer };
+            }
+            return rest;
+        });
             res.json(sanitizedResult);
         } catch (err) {
             next(err);

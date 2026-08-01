@@ -20,5 +20,8 @@ export const errorHandler = (
     }
 
     console.error(err);
+    try {
+        require("fs").appendFileSync("error.log", new Date().toISOString() + " " + (err instanceof Error ? err.stack : String(err)) + "\n");
+    } catch (e) {}
     return res.status(500).json({ message: "Terjadi kesalahan pada server" });
 };

@@ -60,6 +60,7 @@ async function main() {
                             { label: "A", content: `Isyarat ${letter}`, mediaUrl: `https://example.com/assets/bisindo-${letter.toLowerCase()}.png` },
                             { label: "B", content: `Isyarat salah 1`, mediaUrl: `https://example.com/assets/bisindo-${letter === 'A' ? 'b' : 'a'}.png` },
                             { label: "C", content: `Isyarat salah 2`, mediaUrl: `https://example.com/assets/bisindo-${letter === 'Z' ? 'y' : 'z'}.png` },
+                            { label: "D", content: `Isyarat salah 3`, mediaUrl: `https://example.com/assets/bisindo-${letter === 'C' ? 'd' : 'c'}.png` },
                         ]
                     }
                 }
@@ -74,6 +75,7 @@ async function main() {
                             { label: letter, content: `Huruf ${letter}` },
                             { label: letter === 'A' ? 'B' : 'A', content: `Huruf ${letter === 'A' ? 'B' : 'A'}` },
                             { label: letter === 'Z' ? 'Y' : 'Z', content: `Huruf ${letter === 'Z' ? 'Y' : 'Z'}` },
+                            { label: letter === 'C' ? 'D' : 'C', content: `Huruf ${letter === 'C' ? 'D' : 'C'}` },
                         ]
                     }
                 }
