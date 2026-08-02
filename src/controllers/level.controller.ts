@@ -35,13 +35,7 @@ export const levelController = {
             const result = await levelService.getQuestions(req.params.id as string);
         // Hide correct answer from client, except for SIGN_PRACTICE
         // (user already knows the target letter from the prompt)
-        const sanitizedResult = result.map(q => {
-            const { correctAnswer, ...rest } = q;
-            if (q.type === 'SIGN_PRACTICE') {
-                return { ...rest, correctAnswer };
-            }
-            return rest;
-        });
+        const sanitizedResult = result;
             res.json(sanitizedResult);
         } catch (err) {
             next(err);
