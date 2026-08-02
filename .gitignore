@@ -142,5 +142,9 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
+# TypeScript compiled output
+dist/
+api/*.js
+
 src/generated/
 src/generated/prisma
