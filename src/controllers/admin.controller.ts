@@ -6,7 +6,7 @@ import { AppError } from "../services/auth.service.js";
 export const adminController = {
     updateMaterial: async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const { id } = req.params;
+            const id = req.params.id as string;
             const { content, mediaUrl } = req.body;
 
             const material = await prisma.material.update({
@@ -22,7 +22,7 @@ export const adminController = {
 
     updateQuestion: async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
-            const { id } = req.params;
+            const id = req.params.id as string;
             const { prompt, mediaUrl, correctAnswer, options } = req.body;
 
             const question = await prisma.question.update({
