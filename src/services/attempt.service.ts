@@ -50,10 +50,8 @@ export const attemptService = {
         if (isCorrect) {
             if (attemptNumber === 1) {
                 pointsEarned = POINTS_FIRST_TRY;
-            } else if (attemptNumber === 2) {
-                pointsEarned = POINTS_SECOND_TRY;
             } else {
-                pointsEarned = 0; // percobaan ke-3 dst tidak dapat poin, sekadar latihan
+                pointsEarned = POINTS_SECOND_TRY; // percobaan ke-2 dst tetap dapat 50 poin
             }
 
             // Streak bonus hanya berlaku untuk kemenangan attempt ke-1 (sesuai spesifikasi awal)

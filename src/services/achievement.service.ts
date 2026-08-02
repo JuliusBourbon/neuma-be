@@ -48,6 +48,8 @@ export const achievementService = {
                     code: achievement.code,
                     title: achievement.title,
                     unlockedAt: result.unlockedAt,
+                    avatarRewardSeed: achievement.rewardAvatar?.seed,
+                    avatarRewardStyle: achievement.rewardAvatar?.style,
                 });
             }
         }
