@@ -15,9 +15,14 @@ export const achievementService = {
         const completedCount = userProgress.filter((p) => p.status === "COMPLETED").length;
         const perfectCount = userProgress.filter((p) => p.bestScore >= 100).length; // Sesuaikan threshold
 
+        const unlocked = await achievementRepository.findUnlockedByUser(userId);
+        const unlockedIds = new Set(unlocked.map((u) => u.achievementId));
+
         const newlyUnlocked = [];
 
         for (const achievement of allAchievements) {
+            if (unlockedIds.has(achievement.id)) continue;
+            
             let eligible = false;
             
             if (achievement.code.startsWith("COMPLETE_LEVEL_")) {
