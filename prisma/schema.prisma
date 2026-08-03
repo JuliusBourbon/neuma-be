@@ -27,7 +27,7 @@ model User {
   id           String   @id @default(uuid())
   name         String   @unique
   passwordHash String
-  avatarSeed   String? // referensi seed DiceBear, mis. "https://api.dicebear.com/9.x/{style}/svg?seed={avatarSeed}"
+  avatarSeed   String? // referensi seed DiceBear, mis. "https://api.dicebear.com/10.x/{style}/svg?seed={avatarSeed}"
   avatarStyle  String?  @default("adventurer")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

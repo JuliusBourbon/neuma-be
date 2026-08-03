@@ -2,7 +2,7 @@ import { avatarRepository } from "../repositories/avatar.repository.js";
 import { userRepository } from "../repositories/user.repository.js";
 import { AppError } from "./auth.service.js";
 
-const DICEBEAR_BASE_URL = "https://api.dicebear.com/9.x";
+const DICEBEAR_BASE_URL = "https://api.dicebear.com/10.x";
 
 const buildAvatarUrl = (style: string, seed: string) =>
     `${DICEBEAR_BASE_URL}/${style}/svg?seed=${encodeURIComponent(seed)}`;
