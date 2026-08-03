@@ -100,7 +100,7 @@ export const userRepository = {
         const recentActivities = [
             ...recentAchievements.map(a => ({
                 id: a.id,
-                title: `Mendapat Medali: '${a.achievement.title}'`,
+                title: a.achievement.title,
                 timestamp: a.unlockedAt,
                 type: "achievement",
                 avatarStyle: a.achievement.rewardAvatar?.style,
