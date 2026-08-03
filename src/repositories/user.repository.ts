@@ -86,14 +86,14 @@ export const userRepository = {
         const recentAchievements = await prisma.userAchievement.findMany({
             where: { userId },
             orderBy: { unlockedAt: 'desc' },
-            take: 2,
+            take: 5,
             include: { achievement: { include: { rewardAvatar: true } } },
         });
 
         const recentLevels = await prisma.userLevelProgress.findMany({
             where: { userId, status: "COMPLETED" },
             orderBy: { updatedAt: 'desc' },
-            take: 2,
+            take: 5,
             include: { level: true },
         });
 
@@ -122,7 +122,7 @@ export const userRepository = {
             levelsCompleted,
             achievementsCount,
             streak,
-            recentActivities: recentActivities.slice(0, 2).map(a => ({
+            recentActivities: recentActivities.slice(0, 5).map(a => ({
                 title: a.title,
                 timestamp: a.timestamp.toISOString(),
                 type: a.type,
