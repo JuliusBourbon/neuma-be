@@ -24,10 +24,17 @@ export const attemptService = {
         questionId: string,
         userAnswer: string
     ) => {
+        console.log(`[submitAnswer] Started for attempt ${attemptId}, question ${questionId}`);
         const attempt = await attemptRepository.findAttemptById(attemptId);
-        if (!attempt) throw new AppError(404, "Sesi tes tidak ditemukan");
+        if (!attempt) {
+            console.error(`[submitAnswer] Attempt not found: ${attemptId}`);
+            throw new AppError(404, "Sesi tes tidak ditemukan");
+        }
         if (attempt.userId !== userId) throw new AppError(403, "Akses ditolak");
-        if (attempt.finishedAt) throw new AppError(400, "Sesi tes sudah selesai");
+        if (attempt.finishedAt) {
+            console.error(`[submitAnswer] Attempt already finished: ${attemptId}`);
+            throw new AppError(400, "Sesi tes sudah selesai");
+        }
 
         const question = await attemptRepository.findQuestionById(questionId);
         if (!question) throw new AppError(404, "Soal tidak ditemukan");
@@ -70,6 +77,7 @@ export const attemptService = {
             streakBonus,
         });
 
+        console.log(`[submitAnswer] Success for question ${questionId}, isCorrect: ${isCorrect}, totalEarned: ${pointsEarned + streakBonus}`);
         return {
             isCorrect,
             attemptNumber,
@@ -104,14 +112,22 @@ export const attemptService = {
     },
 
     finishAttempt: async (userId: string, attemptId: string) => {
+        console.log(`[finishAttempt] Started for attempt: ${attemptId}`);
         const attempt = await attemptRepository.findAttemptById(attemptId);
-        if (!attempt) throw new AppError(404, "Sesi tes tidak ditemukan");
+        if (!attempt) {
+            console.error(`[finishAttempt] Attempt not found: ${attemptId}`);
+            throw new AppError(404, "Sesi tes tidak ditemukan");
+        }
         if (attempt.userId !== userId) throw new AppError(403, "Akses ditolak");
-        if (attempt.finishedAt) throw new AppError(400, "Sesi tes sudah pernah diselesaikan");
+        if (attempt.finishedAt) {
+            console.error(`[finishAttempt] Attempt already finished: ${attemptId}`);
+            throw new AppError(400, "Sesi tes sudah pernah diselesaikan");
+        }
 
         // Tidak lagi mewajibkan semua soal terjawab benar — skip diperbolehkan.
         // Cukup pastikan minimal ada 1 record (jawab/skip) per soal, agar tidak finish sesi kosong.
         if (attempt.answers.length === 0) {
+            console.error(`[finishAttempt] Attempt answers length is 0 for attempt: ${attemptId}`);
             throw new AppError(400, "Belum ada soal yang dikerjakan");
         }
 
@@ -150,6 +166,7 @@ export const attemptService = {
 
         const newAchievements = await achievementService.checkAndUnlockAchievements(userId);
 
+        console.log(`[finishAttempt] Success for attempt: ${attemptId}, totalScore: ${totalScore}`);
         return { attemptId, totalScore, newAchievements };
     },
 
