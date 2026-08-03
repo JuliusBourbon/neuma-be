@@ -13,6 +13,15 @@ export const userController = {
         }
     },
 
+    getProfileById: async (req: AuthRequest, res: Response, next: NextFunction) => {
+        try {
+            const profile = await userService.getProfile(req.params.id);
+            res.json(profile);
+        } catch (err) {
+            next(err);
+        }
+    },
+
     updateProfile: async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
             const data = updateProfileSchema.parse(req.body);

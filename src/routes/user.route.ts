@@ -6,6 +6,7 @@ const router = Router();
 
 router.use(authMiddleware);
 router.get("/me", userController.getMe);
+router.get("/:id/profile", userController.getProfileById);
 router.patch("/me", userController.updateProfile);
 router.patch("/me/password", userController.updatePassword);
 
